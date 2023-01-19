@@ -1,15 +1,12 @@
 import 'package:flutter_mmh/constants.dart';
 import 'package:flutter_mmh/screens/auth/sign_in_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'components/sign_up_form.dart';
 import '../../services/auth.dart';
 
 class SignUpScreen extends StatelessWidget {
-  // It's time to validat the text field
   final _formKey = GlobalKey<FormState>();
 
   final _emailTextController = TextEditingController();
@@ -18,17 +15,11 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // But still same problem, let's fixed it
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,
         children: [
-          SvgPicture.asset(
-            "assets/icons/Sign_Up_bg.svg",
-            height: MediaQuery.of(context).size.height,
-            // Now it takes 100% of our height
-          ),
           Center(
             child: SafeArea(
               child: SingleChildScrollView(
@@ -68,15 +59,17 @@ class SignUpScreen extends StatelessWidget {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             User? user = await FireAuth.registerEmailPass(
+                                username: _userNameTextController.text,
+                                email: _emailTextController.text,
+                                password: _passwordTextController.text);
 
-                            username: _userNameTextController.text, 
-                            email: _emailTextController.text,
-                            password: _passwordTextController.text);
-                            // Sign up form is done
-                            // It saved our inputs
                             _formKey.currentState!.save();
                           }
                         },
+                        style: TextButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 121, 62, 249),
+                          minimumSize: Size.fromHeight(50),
+                        ),
                         child: Text("Sign Up"),
                       ),
                     ),

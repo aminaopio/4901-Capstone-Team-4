@@ -1,34 +1,36 @@
 import 'package:flutter_mmh/screens/auth/sign_up_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../constants.dart';
 import 'components/sign_in_form.dart';
 import '../../services/auth.dart';
 
-final _emailTextController = TextEditingController();
-final _passwordTextController = TextEditingController();
+final _emailController = TextEditingController();
+final _passwordController = TextEditingController();
 
+Future signIn() async {
+  await FirebaseAuth.instance.signInWithEmailAndPassword(
+    email: _emailController.text.trim(),
+    password: _passwordController.text.trim(),
+  );
+}
+
+@override
+void dispose() {
+  _emailController.dispose();
+  _passwordController.dispose();
+}
 
 class SignInScreen extends StatelessWidget {
-  // It's time to validate the text field
   final _formKey = GlobalKey<FormState>();
- 
 
   @override
   Widget build(BuildContext context) {
-    // But still same problem, let's fixed it
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,
         children: [
-          SvgPicture.asset(
-            "assets/icons/Sign_Up_bg.svg",
-            height: MediaQuery.of(context).size.height,
-            // Now it takes 100% of our height
-          ),
           Padding(
             padding:
                 EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1),
@@ -67,20 +69,11 @@ class SignInScreen extends StatelessWidget {
                     const SizedBox(height: defaultPadding * 2),
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            User? user = await FireAuth.signInUsingEmailPassword(
-                              email: _emailTextController.text,
-                              password: _passwordTextController.text,
-                            );
-                            // Sign up form is done
-                            // It saved our inputs
-                            _formKey.currentState!.save();
-                            //  Sign in also done
-                          }
-                        },
-                        child: Text("Sign In"),
+                      child: GestureDetector(
+                        onTap: signIn,
+                        child: Container(
+                          child: Text("Sign In"),
+                        ),
                       ),
                     ),
                   ],

@@ -4,7 +4,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import '../../../constants.dart';
 
 class SignUpForm extends StatelessWidget {
-   SignUpForm({
+  SignUpForm({
     Key? key,
     required this.formKey,
   }) : super(key: key);
@@ -12,6 +12,7 @@ class SignUpForm extends StatelessWidget {
   final GlobalKey formKey;
 
   late String _userName, _email, _password;
+
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   final _userNameTextController = TextEditingController();
@@ -24,16 +25,12 @@ class SignUpForm extends StatelessWidget {
         children: [
           TextFieldName(text: "Username"),
           TextFormField(
-            decoration: InputDecoration(hintText: "theflutterway"),
+            decoration: InputDecoration(hintText: "meetmehalfway"),
             validator: RequiredValidator(errorText: "Username is required"),
             controller: _userNameTextController,
-            // Let's save our username
             onSaved: (username) => _userName = username!,
           ),
           const SizedBox(height: defaultPadding),
-          // We will fixed the error soon
-          // As you can see, it's a email field
-          // But no @ on keybord
           TextFieldName(text: "Email"),
           TextFormField(
             keyboardType: TextInputType.emailAddress,
@@ -44,24 +41,21 @@ class SignUpForm extends StatelessWidget {
           ),
           const SizedBox(height: defaultPadding),
           TextFieldName(text: "Name"),
-          // Same for phone number
           TextFormField(
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(hintText: "Name"),
             validator: RequiredValidator(errorText: "Name is required"),
+            controller: _passwordTextController,
             onSaved: (username) => _userName = username!,
           ),
           const SizedBox(height: defaultPadding),
           TextFieldName(text: "Password"),
-
           TextFormField(
-            // We want to hide our password
             obscureText: true,
             decoration: InputDecoration(hintText: "******"),
             validator: passwordValidator,
             onSaved: (password) => _password = password!,
-            // We also need to validate our password
-            // Now if we type anything it adds that to our password
+            //validate password
             onChanged: (pass) => _password = pass,
           ),
           const SizedBox(height: defaultPadding),
@@ -69,7 +63,9 @@ class SignUpForm extends StatelessWidget {
           TextFormField(
             obscureText: true,
             decoration: InputDecoration(hintText: "*****"),
-            validator: (pass) => MatchValidator(errorText: "Password do not  match").validateMatch(pass!, _password),
+            validator: (pass) =>
+                MatchValidator(errorText: "Passwords do not match")
+                    .validateMatch(pass!, _password),
           ),
         ],
       ),

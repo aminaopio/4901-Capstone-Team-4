@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-
 import '../../../constants.dart';
 import 'sign_up_form.dart';
 import '../sign_in_screen.dart';
@@ -13,7 +12,7 @@ class SignInForm extends StatelessWidget {
     Key? key,
     required this.formKey,
   }) : super(key: key);
-  
+
   final _focusEmail = FocusNode();
   final _focusPassword = FocusNode();
 
@@ -40,7 +39,7 @@ class SignInForm extends StatelessWidget {
           const SizedBox(height: defaultPadding),
           TextFieldName(text: "Password"),
           TextFormField(
-            // We want to hide our password
+            //hide password
             obscureText: true,
             decoration: InputDecoration(hintText: "******"),
             controller: _passwordTextController,
