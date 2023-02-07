@@ -28,11 +28,11 @@ Throughout our various sprints, we have been successful in implementing the foll
 
 Resources:
 
-[Flutter Getting Started](https://docs.flutter.dev/get-started/editor)
-[Flutter Installation, VSC](https://www.geeksforgeeks.org/how-to-install-flutter-on-visual-studio-code/)
-[Flutter online documentation](https://docs.flutter.dev/)
-[Firebase CLI Reference](https://firebase.google.com/docs/cli#add_alias)
-[Flutterfire CLI](https://firebase.flutter.dev/docs/cli/)
+- [Flutter Getting Started](https://docs.flutter.dev/get-started/editor)
+- [Flutter Installation, VSC](https://www.geeksforgeeks.org/how-to-install-flutter-on-visual-studio-code/)
+- [Flutter online documentation](https://docs.flutter.dev/)
+- [Firebase CLI Reference](https://firebase.google.com/docs/cli#add_alias)
+- [Flutterfire CLI](https://firebase.flutter.dev/docs/cli/)
 
-[Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-[Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
