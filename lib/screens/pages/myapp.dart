@@ -54,8 +54,8 @@ class MapSampleState extends State<MapSample> {
   }
 
   void _setPolyline(List<PointLatLng> points) {
-    final String polylineIdVal = 'polygon_$_polylineIdCounter';
-    _polygonIdCounter++;
+    final String polylineIdVal = 'polyline_$_polylineIdCounter';
+    _polylineIdCounter++;
 
     _polylines.add(
       Polyline(
@@ -75,7 +75,14 @@ class MapSampleState extends State<MapSample> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
-          title: Text('Meet Halfway!'),
+          backgroundColor: Colors.deepPurpleAccent,
+          title: Text(
+            'Meet Halfway!',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
+          ),
         ),
         body: Column(
           children: [
@@ -89,8 +96,11 @@ class MapSampleState extends State<MapSample> {
                         child: TextFormField(
                           controller: _originController,
                           textCapitalization: TextCapitalization.words,
-                          decoration:
-                              InputDecoration(hintText: 'Starting Location'),
+                          decoration: InputDecoration(
+                            hintText: 'Starting Location',
+                            hintStyle: TextStyle(
+                                fontSize: 18, color: Colors.grey[500]),
+                          ),
                           onChanged: (value) {
                             print(value);
                           },
@@ -101,7 +111,13 @@ class MapSampleState extends State<MapSample> {
                         child: TextFormField(
                           controller: _destinationController,
                           textCapitalization: TextCapitalization.words,
-                          decoration: InputDecoration(hintText: 'Destination'),
+                          decoration: InputDecoration(
+                            hintText: 'Destination',
+                            hintStyle: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey[500]),
+                          ),
                           onChanged: (value) {
                             print(value);
                           },
@@ -119,12 +135,13 @@ class MapSampleState extends State<MapSample> {
                       directions['start_location']['lng'],
                       directions['bounds_ne'],
                       directions['bounds_sw'],
+                      directions[
+                          'polyline_decoded'], // pass the polyline points to _goToPlace
                     );
-
-                    _setPolyline(directions['polyline_decoded']);
                   },
                   icon: Icon(Icons.search),
-                  color: Colors.blue,
+                  color: Colors.deepPurpleAccent,
+                  iconSize: 40,
                 ),
               ],
             ),
@@ -151,29 +168,43 @@ class MapSampleState extends State<MapSample> {
   }
 
   Future<void> _goToPlace(
-    //(Map<String, dynamic> place)
     double lat,
     double lng,
     Map<String, dynamic> boundsNe,
     Map<String, dynamic> boundsSw,
+    List<PointLatLng> polylinePoints, // accept polyline points as an argument
   ) async {
-    // final double lat = place['geometry']['location']['lat'];
-    // final double lng = place['geometry']['location']['lng'];
-
     final GoogleMapController controller = await _controller.future;
+
+    // Calculate midpoint between origin and destination
+    double midLat = (boundsNe['lat'] + boundsSw['lat']) / 2;
+    double midLng = (boundsNe['lng'] + boundsSw['lng']) / 2;
+
     controller.animateCamera(
       CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(lat, lng), zoom: 12)),
+        CameraPosition(target: LatLng(midLat, midLng), zoom: 12),
+      ),
     );
     controller.animateCamera(
       CameraUpdate.newLatLngBounds(
-          LatLngBounds(
-            southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
-            northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
-          ),
-          25),
+        LatLngBounds(
+          southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
+          northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
+        ),
+        25,
+      ),
     );
 
-    _setMarker(LatLng(lat, lng));
+    _markers.clear(); // clear previous markers
+    _setMarker(LatLng(midLat, midLng));
+
+    _polygons.clear(); // clear previous polygons
+    polygonLatLngs = []; // clear polygonLatLngs list
+
+    _polylines.clear(); // clear previous polylines
+    if (polylinePoints.isNotEmpty) {
+      // add this check to make sure there are polyline points
+      _setPolyline(polylinePoints);
+    }
   }
 }
