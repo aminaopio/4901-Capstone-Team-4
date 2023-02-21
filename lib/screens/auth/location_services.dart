@@ -51,4 +51,33 @@ class LocationService {
     print(results);
     return results;
   }
+
+  Future<Map<String, dynamic>> getMidpoint(
+      String origin, String destination) async {
+    // Get the directions from origin to destination
+    final directionsUrl =
+        'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=$key';
+    final directionsResponse = await http.get(Uri.parse(directionsUrl));
+    final directionsJson = convert.jsonDecode(directionsResponse.body);
+
+    // Extract the latitude and longitude of the start and end locations
+    final startLat =
+        directionsJson['routes'][0]['legs'][0]['start_location']['lat'];
+    final startLng =
+        directionsJson['routes'][0]['legs'][0]['start_location']['lng'];
+    final endLat =
+        directionsJson['routes'][0]['legs'][0]['end_location']['lat'];
+    final endLng =
+        directionsJson['routes'][0]['legs'][0]['end_location']['lng'];
+
+    // Calculate the midpoint
+    final midpointLat = (startLat + endLat) / 2;
+    final midpointLng = (startLng + endLng) / 2;
+
+    // Return the midpoint as a Map
+    return {
+      'lat': midpointLat,
+      'lng': midpointLng,
+    };
+  }
 }

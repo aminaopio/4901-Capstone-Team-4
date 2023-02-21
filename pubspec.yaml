@@ -48,6 +48,8 @@ dependencies:
   google_maps_flutter: ^2.2.3
   http: ^0.13.5
   vm_service: ^9.4.0
+  flutter_google_places: ^0.3.0
+  google_map_polyline_new: ^0.3.0+2
  
 
 
