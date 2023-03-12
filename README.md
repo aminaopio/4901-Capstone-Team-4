@@ -12,17 +12,17 @@ Throughout our various sprints, we have been successful in implementing the foll
 - Google/Apple ID Login
 - Backend database for registration storage
 - GPS System: ability to enter addresses and move the focus area. 
-- User Dashboard
+- User Dashboard: Adding more to the User Dashboard (Sprint 5)
+- Halfway algorithm: finding the halfway point between two addresses (Sprint 5)
+- Ability to enter two addresses for the functionality above to run (Sprint 5)
 
 ## Progress
 
-- Adding more to the User Dashboard (WIP)
 - Ensuring everyone can run the project with Firebase/Flutter installed
+- Connecting the Dashboard to IOS and making it functionable
 
 ## Not Yet Started
 
-- Halfway algorithm: finding the halfway point between two addresses
-- Ability to enter two addresses for the functionality above to run.
 - Favorites, Seeing the places, etc.
 - More to come.
 
