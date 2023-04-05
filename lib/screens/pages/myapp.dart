@@ -3,14 +3,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../auth/location_services.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class MapSample extends StatefulWidget {
   @override
   State<MapSample> createState() => MapSampleState();
 }
 
-class MapSampleState extends State<MapSample> {
-  Completer<GoogleMapController> _controller = Completer();
+class MapSampleState extends State<MapSample> with WidgetsBindingObserver {
+  final Completer<GoogleMapController> _controller = Completer();
+  late String _darkMapStyle;
+  late String _lightMapStyle;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _loadMapStyles();
+    _setMarker(LatLng(33.2075, -97.1526));
+  }
+
+  Future _loadMapStyles() async {
+    _darkMapStyle = await rootBundle.loadString('assets/map_styles/dark.json');
+    _lightMapStyle =
+        await rootBundle.loadString('assets/map_styles/light.json');
+  }
+
+  Future _setMapStyle() async {
+    final controller = await _controller.future;
+    final theme = WidgetsBinding.instance.window.platformBrightness;
+    if (theme == Brightness.dark)
+      controller.setMapStyle(_darkMapStyle);
+    else
+      controller.setMapStyle(_lightMapStyle);
+  }
+
+  void didChangePlatformBrightness() {
+    setState(() {
+      _setMapStyle();
+    });
+  }
+
   TextEditingController _originController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
 
@@ -24,11 +57,19 @@ class MapSampleState extends State<MapSample> {
 
   static final CameraPosition _kUNT =
       CameraPosition(target: LatLng(33.2075, -97.1526), zoom: 15);
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    _setMarker(LatLng(33.2075, -97.1526));
+  //   WidgetsBinding.instance.addObserver(this);
+  //   _loadMapStyles();
+  //   _setMarker(LatLng(33.2075, -97.1526));
+  // }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   void _setMarker(LatLng point) {
@@ -74,97 +115,90 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.deepPurpleAccent,
-          title: Text(
-            'Meet Halfway!',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-            ),
-          ),
-        ),
         body: Column(
+      children: [
+        Row(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: TextFormField(
-                          controller: _originController,
-                          textCapitalization: TextCapitalization.words,
-                          decoration: InputDecoration(
-                            hintText: 'Starting Location',
-                            hintStyle: TextStyle(
-                                fontSize: 18, color: Colors.grey[500]),
-                          ),
-                          onChanged: (value) {
-                            print(value);
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: TextFormField(
-                          controller: _destinationController,
-                          textCapitalization: TextCapitalization.words,
-                          decoration: InputDecoration(
-                            hintText: 'Destination',
-                            hintStyle: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.grey[500]),
-                          ),
-                          onChanged: (value) {
-                            print(value);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                IconButton(
-                  onPressed: () async {
-                    var directions = await LocationService().getDirections(
-                        _originController.text, _destinationController.text);
-                    _goToPlace(
-                      directions['start_location']['lat'],
-                      directions['start_location']['lng'],
-                      directions['bounds_ne'],
-                      directions['bounds_sw'],
-                      directions[
-                          'polyline_decoded'], // pass the polyline points to _goToPlace
-                    );
-                  },
-                  icon: Icon(Icons.search),
-                  color: Colors.deepPurpleAccent,
-                  iconSize: 40,
-                ),
-              ],
-            ),
             Expanded(
-              child: GoogleMap(
-                mapType: MapType.normal,
-                markers: _markers,
-                polygons: _polygons,
-                polylines: _polylines,
-                initialCameraPosition: _kUNT,
-                onMapCreated: (GoogleMapController controller) {
-                  _controller.complete(controller);
-                },
-                onTap: (point) {
-                  setState(() {
-                    polygonLatLngs.add(point);
-                    _setPolygon();
-                  });
-                },
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: TextFormField(
+                      controller: _originController,
+                      textCapitalization: TextCapitalization.words,
+                      decoration: InputDecoration(
+                        hintText: 'Starting Location',
+                        hintStyle:
+                            TextStyle(fontSize: 18, color: Colors.grey[500]),
+                      ),
+                      onChanged: (value) {
+                        print(value);
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: TextFormField(
+                      controller: _destinationController,
+                      textCapitalization: TextCapitalization.words,
+                      decoration: InputDecoration(
+                        hintText: 'Destination',
+                        hintStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey[500]),
+                      ),
+                      onChanged: (value) {
+                        print(value);
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
+            IconButton(
+              onPressed: () async {
+                var directions = await LocationService().getDirections(
+                    _originController.text, _destinationController.text);
+                _goToPlace(
+                  directions['start_location']['lat'],
+                  directions['start_location']['lng'],
+                  directions['bounds_ne'],
+                  directions['bounds_sw'],
+                  directions[
+                      'polyline_decoded'], // pass the polyline points to _goToPlace
+                );
+              },
+              icon: Icon(Icons.search),
+              color: Colors.grey,
+              iconSize: 30,
+            ),
           ],
-        ));
+        ),
+        Expanded(
+          child: GoogleMap(
+            padding: EdgeInsets.only(bottom: 25, left: 15),
+            compassEnabled: true,
+            mapType: MapType.normal,
+            markers: _markers,
+            polygons: _polygons,
+            polylines: _polylines,
+            initialCameraPosition: _kUNT,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+              _setMapStyle();
+            },
+            onTap: (point) {
+              setState(() {
+                polygonLatLngs.add(point);
+                _setPolygon();
+              });
+            },
+          ),
+        ),
+      ],
+    ));
   }
 
   Future<void> _goToPlace(

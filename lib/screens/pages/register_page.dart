@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../auth/main_page.dart';
+
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
   const RegisterPage({super.key, required this.onTap});
@@ -25,15 +27,23 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void signUp() async {
-    //loading
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
+    // once user is authenticated, direct them to the main page
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Auth(),
+      ),
     );
+    //loading
+    // showDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     return const Center(
+    //       child: CircularProgressIndicator(),
+    //     );
+    //   },
+    // );
 
     //sign up
     try {
@@ -70,7 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -178,7 +188,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: Container(
                           padding: EdgeInsets.all(25),
                           decoration: BoxDecoration(
-                            color: Colors.deepPurpleAccent,
+                            color: Colors.green[300],
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: const Center(
@@ -187,7 +197,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                fontSize: 18,
                               ),
                             ),
                           ),

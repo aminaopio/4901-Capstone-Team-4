@@ -1,24 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_mmh/screens/auth/auth_page.dart';
+import 'package:flutter_mmh/screens/pages/myapp.dart';
+import '../../services/theme_button.dart';
 
+import '../../components/bot_navbar.dart';
+import '../../components/menu_page.dart';
+import '../pages/settings_page.dart';
 import 'dashboard.dart';
 
-class Auth extends StatelessWidget {
+class Auth extends StatefulWidget {
   const Auth({super.key});
+
+  @override
+  State<Auth> createState() => _AuthState();
+}
+
+class _AuthState extends State<Auth> {
+  int _selectedIndex = 0;
+
+  void navigateBottomBar(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  final List<Widget> _pages = [
+    // app page
+    MapSample(),
+
+    // profile page
+    Dashboard(),
+
+    // setting page
+    const SettingsPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Dashboard();
-          } else {
-            return AuthPage();
-          }
-        },
+      backgroundColor: Colors.green[300],
+      appBar: AppBar(
+        actions: [
+          ChangeThemeButtonWidget(),
+        ],
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
+        title: Text(
+          'M E E T   M E  H A L F W A Y',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
+      drawer: MenuPage(),
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: MyBottomNavBar(
+        onTabChange: (index) => navigateBottomBar(index),
       ),
     );
   }

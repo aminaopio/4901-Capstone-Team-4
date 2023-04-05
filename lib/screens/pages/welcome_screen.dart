@@ -2,10 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mmh/components/square_tile.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_mmh/screens/pages/myapp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../services/auth_services.dart';
+import '../../services/theme_button.dart';
+import '../auth/main_page.dart';
 
 class WelcomeScreen extends StatefulWidget {
   final Function()? onTap;
@@ -20,16 +21,33 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  // void signInWithGoogle() async {
+  //   Navigator.pop(context);
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => const Auth(),
+  //     ),
+  //   );
+  // }
+
   void signIn() async {
-    //loading
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
+    // once user is authenticated, direct them to the main page
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Auth(),
+      ),
     );
+    // //loading
+    // showDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     return const Center(
+    //       child: CircularProgressIndicator(),
+    //     );
+    //   },
 
     //sign in
     try {
@@ -72,7 +90,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).backgroundColor,
+        elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ChangeThemeButtonWidget(),
+          ),
+        ],
+      ),
+      backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
           child: Center(
               child: SingleChildScrollView(
@@ -173,7 +201,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: Container(
                 padding: EdgeInsets.all(25),
                 decoration: BoxDecoration(
-                  color: Colors.deepPurpleAccent,
+                  color: Colors.green[300],
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Center(
@@ -182,7 +210,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 18,
                     ),
                   ),
                 ),
@@ -252,34 +280,39 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               GestureDetector(
                 onTap: widget.onTap,
                 child: Text(
-                  '  Register',
+                  '  Register here!',
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              Text(
-                ' or',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              TextButton(
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MapSample(),
-                  ),
-                ),
-                child: Text(
-                  'Skip to the App!',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              // Text(
+              //   ' or',
+              //   style: TextStyle(
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              // TextButton(
+              //   onPressed: () => Navigator.push(
+              //     context,
+
+              //     MaterialPageRoute(
+              //       builder: (context) => MapSample(
+
+              //       ),
+
+              //     ),
+              //   ),
+
+              //   child: Text(
+              //     'Skip to the App!',
+              //     style: TextStyle(
+              //       color: Colors.blue,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ]),

@@ -50,6 +50,7 @@ dependencies:
   vm_service: ^9.4.0
   flutter_google_places: ^0.3.0
   google_map_polyline_new: ^0.3.0+2
+  provider: ^6.0.5
  
 
 
@@ -81,6 +82,8 @@ flutter:
   assets:
     - lib/images/google.png
     - lib/images/apple.png
+    - lib/assets/
+    - lib/assets/map_styles/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
