@@ -6,25 +6,24 @@ Meet Me Halfway is a mobile application for individuals who would like to do as 
 
 ## Implemented: 
 
-Throughout our various sprints, we have been successful in implementing the following functionalities:
+We have successfully implemented the following functionalities:
 
-- Registration and Login
-- Google/Apple ID Login
-- Backend database for registration storage
-- GPS System: ability to enter addresses and move the focus area. 
-- User Dashboard: Adding more to the User Dashboard (Sprint 5)
-- Halfway algorithm: finding the halfway point between two addresses (Sprint 5)
-- Ability to enter two addresses for the functionality above to run (Sprint 5)
+- Registration and Login.
+- Google/Apple Login.
+- Backend database for user information storage.
+- Google Maps Places API: Displays Google Map Widget and allows the user to enter locations.
+- User Dashboard: Basic profile information displayed as well as customizable features.
+- Midpoint algorithm: Calculates the midpoint of two user-dependent locations.
 
-## Progress
+## In Progress
 
-- Ensuring everyone can run the project with Firebase/Flutter installed
-- Connecting the Dashboard to IOS and making it functionable
+- Place Autocomplete: Returns place predictions in response to user search queries.
+- Method for filtering nearby places by selected "type."
 
-## Not Yet Started
+## Future Goals
 
-- Favorites, Seeing the places, etc.
-- More to come.
+- Location Services.
+- Communication between users.
 
 Resources:
 
