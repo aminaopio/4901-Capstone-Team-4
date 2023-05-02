@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mmh/screens/pages/myapp.dart';
-import '../../services/theme_button.dart';
 
 import '../../components/bot_navbar.dart';
 import '../../components/menu_page.dart';
@@ -39,9 +38,6 @@ class _AuthState extends State<Auth> {
     return Scaffold(
       backgroundColor: Colors.green[300],
       appBar: AppBar(
-        actions: [
-          ChangeThemeButtonWidget(),
-        ],
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: Builder(

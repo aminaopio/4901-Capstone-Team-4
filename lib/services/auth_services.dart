@@ -16,4 +16,6 @@ class AuthService {
     //sign in
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
+
+  signInWithApple() async {}
 }

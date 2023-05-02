@@ -51,6 +51,12 @@ dependencies:
   flutter_google_places: ^0.3.0
   google_map_polyline_new: ^0.3.0+2
   provider: ^6.0.5
+  image_picker: ^0.8.7+3
+  lottie: ^2.3.2
+  flutter_bloc: ^8.1.2
+  equatable: ^2.0.5
+  geolocator: ^9.0.2
+  location: ^4.4.0
  
 
 
@@ -82,8 +88,15 @@ flutter:
   assets:
     - lib/images/google.png
     - lib/images/apple.png
+    - lib/images/googleplay.png
+    - lib/images/defaultprofile.png
+    - lib/images/appstore.png
+    - lib/assets/fonts/SourceSansPro-Regular.ttf
     - lib/assets/
     - lib/assets/map_styles/
+    - lib/assets/animations/animation.json
+    - lib/assets/animations/spinning.json
+    - lib/assets/animations/lottie.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -91,7 +91,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
         actions: [
           Padding(
@@ -234,13 +234,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Text(
                     'Or continue with',
-                    style: TextStyle(color: Colors.grey[700]),
+                    // style: TextStyle(color: Colors.grey[700]),
                   ),
                 ),
                 Expanded(
                     child: Divider(
                   thickness: 0.5,
-                  color: Colors.grey[400],
+                  color: Colors.grey[600],
                 ))
               ],
             ),
