@@ -14,6 +14,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   //text controllers
+  late final ThemeMode themeMode;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -72,7 +73,6 @@ class _RegisterPageState extends State<RegisterPage> {
               title: Center(
                   child: Text(
                 message,
-                style: const TextStyle(color: Colors.white),
               )));
         });
   }
