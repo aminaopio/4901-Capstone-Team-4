@@ -24,6 +24,10 @@ We have successfully implemented the following functionalities:
 
 - Location Services.
 - Communication between users.
+  
+<img width="650" alt="proj1" src="https://github.com/aminaopio/Meet-Me-Halfway/assets/65184488/9ca069e5-04db-489d-88c9-7ae1b3fb5a29">
+
+
 
 Resources:
 
